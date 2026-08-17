@@ -27,6 +27,7 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+AGENTS.md
 
 # Dependencies and downloaded runtimes
 /library/inference_runtime/libtorch/
@@ -41,6 +42,7 @@ Thumbs.db
 *.zip
 *.tgz
 *.tar.gz
+*.log
 temp_extract*/
 
 # Secrets

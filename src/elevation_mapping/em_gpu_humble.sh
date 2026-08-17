@@ -6,7 +6,6 @@ EM_HOST_DIR="${EM_HOST_DIR:-/home/brave/sim2sim}"
 EM_MOUNT_DIR="${EM_MOUNT_DIR:-/sim2sim}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="${PROJECT_DIR:-${EM_HOST_DIR}/rl_sar/src/elevation_mapping}"
 
 em_exists() { docker ps -a --format '{{.Names}}' | grep -Fxq "${EM_CONTAINER}"; }
 em_running() { docker ps --format '{{.Names}}' | grep -Fxq "${EM_CONTAINER}"; }

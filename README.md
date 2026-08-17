@@ -64,11 +64,11 @@ sudo apt install -y \
   ros-humble-joint-state-publisher-gui \
   ros-humble-rviz2
 
-pip install python3-rich
+pip install rich
 
 mkdir -p ~/.gazebo/models
 git -c http.version=HTTP/1.1 clone --depth 1 --filter=blob:none --sparse \
-  https://github.com/osrf/gazebo_models.git /tmp/gazebo_models
+  https://gh-proxy.org/https://github.com/osrf/gazebo_models.git /tmp/gazebo_models
 git -C /tmp/gazebo_models sparse-checkout set sun ground_plane
 cp -a /tmp/gazebo_models/sun /tmp/gazebo_models/ground_plane ~/.gazebo/models/
 ```
@@ -76,7 +76,7 @@ cp -a /tmp/gazebo_models/sun /tmp/gazebo_models/ground_plane ~/.gazebo/models/
 ### 4. 构建工作区
 
 ```bash
-cd /sim2sim/rl_sar
+cd /sim2sim/sim2gazebo
 source /opt/ros/humble/setup.bash
 colcon build --symlink-install
 source install/setup.bash
@@ -88,9 +88,9 @@ source install/setup.bash
 
 三个终端，均需先加载 ROS 与工作区环境：
 
-1. **Gazebo**：`ros2 launch rl_sar gazebo.launch.py` — 可选 `rname:=go2`（机器人）、`wname:=stairs|terrain_track`（世界）
-2. **高程图**：`ros2 launch elevation_mapping_cupy elevation_mapping.launch.py use_sim_time:=true`
-3. **策略控制器**：`ros2 run rl_policy_runtime deploy_node --ros-args -p policy:=quad_mwm -p keyboard_enabled:=true`
+1. **Gazebo**：ros2 launch rl_sar gazebo.launch.py rname:=go2 wname:=terrain_track
+2. **高程图**：ros2 launch elevation_mapping_cupy elevation_mapping.launch.py use_sim_time:=true
+3. **策略控制器**：ros2 run rl_policy_runtime deploy_node --ros-args -p policy:=quad_mwm -p keyboard_enabled:=true
 
 可选策略：`quad_mwm`（高程图 17×25×3）、`isaaclab_ame`（21×33×3）。控制器会自动启动 `robot_joint_controller` 与高程图适配器；**不要同时运行多个 `deploy_node`**。
 
