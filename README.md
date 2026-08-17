@@ -18,7 +18,8 @@ rl_policy_runtime               FSM、策略加载、终端交互与关节命令
 为执行 shell 脚本设置权限，然后运行脚本构建镜像（约 15–20 分钟）。`build.sh` 默认使用 FastDDS/FastRTPS 构建：
 
 ```bash
-chmod +x docker/build.sh docker/run.sh
+cd src/elevation_mapping/docker
+chmod +x build.sh docker/run.sh
 ROS_DISTRO=humble ./build.sh        # build.sh 默认 ROS_DISTRO=jazzy，本项目使用 Humble
 ```
 
