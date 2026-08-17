@@ -1,0 +1,48 @@
+/build/
+/install/
+/log/
+/devel/
+/logs/
+/cmake_build/
+.catkin_tools/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.so.*
+*.d
+
+# Python
+__pycache__/
+*.py[cod]
+
+# IDE / OS
+.vscode/
+.agents/
+.codex/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Dependencies and downloaded runtimes
+/library/inference_runtime/libtorch/
+/library/inference_runtime/onnxruntime/
+/mujoco/
+
+# Caches and temporary files
+.cache/
+*.tmp
+*.bak
+*.swp
+*.zip
+*.tgz
+*.tar.gz
+temp_extract*/
+
+# Secrets
+.env
+.env.*

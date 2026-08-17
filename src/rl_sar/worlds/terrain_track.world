@@ -1,0 +1,1817 @@
+<?xml version="1.0" ?>
+<!-- Auto-generated Continuous Terrain Track along X-axis for Go2 RL deployment -->
+<sdf version="1.5">
+    <world name="default">
+        <physics type="ode">
+            <max_step_size>0.0005</max_step_size>
+            <real_time_factor>1</real_time_factor>
+            <real_time_update_rate>2000</real_time_update_rate>
+            <gravity>0 0 -9.81</gravity>
+            <ode>
+                <solver>
+                    <type>quick</type>
+                    <iters>50</iters>
+                    <sor>1.3</sor>
+                </solver>
+                <constraints>
+                    <cfm>0.0</cfm>
+                    <erp>0.2</erp>
+                    <contact_max_correcting_vel>10.0</contact_max_correcting_vel>
+                    <contact_surface_layer>0.001</contact_surface_layer>
+                </constraints>
+            </ode>
+        </physics>
+
+        <scene>
+            <sky>
+                <clouds>
+                    <speed>12</speed>
+                </clouds>
+            </sky>
+        </scene>
+
+        <!-- Global light source -->
+        <include>
+            <uri>model://sun</uri>
+        </include>
+
+        <!-- Base Ground Plane (Z = 0.0) -->
+        <include>
+            <uri>model://ground_plane</uri>
+        </include>
+
+        <!-- Continuous Terrain Track along X-axis -->
+        <model name="terrain_track">
+            <static>true</static>
+            
+            <link name="zone0_start_mat">
+                <pose>0.5000 0.0000 0.001 0 0 0</pose>
+                <visual name="zone0_start_mat_vis">
+                    <geometry>
+                        <box><size>3.0000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_0">
+                <pose>2.2250 -1.1250 0.0374 0 0 0</pose>
+                <collision name="zone1_box_0_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0748</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0748</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_1">
+                <pose>2.2250 -0.6750 0.0159 0 0 0</pose>
+                <collision name="zone1_box_0_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0318</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0318</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_2">
+                <pose>2.2250 -0.2250 0.0246 0 0 0</pose>
+                <collision name="zone1_box_0_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0493</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0493</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_3">
+                <pose>2.2250 0.2250 0.0228 0 0 0</pose>
+                <collision name="zone1_box_0_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0456</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0456</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_4">
+                <pose>2.2250 0.6750 0.0408 0 0 0</pose>
+                <collision name="zone1_box_0_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0816</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0816</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_0_5">
+                <pose>2.2250 1.1250 0.0387 0 0 0</pose>
+                <collision name="zone1_box_0_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0774</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_0_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0774</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_0">
+                <pose>2.6750 -1.1250 0.0462 0 0 0</pose>
+                <collision name="zone1_box_1_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0925</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0925</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_1">
+                <pose>2.6750 -0.6750 0.0180 0 0 0</pose>
+                <collision name="zone1_box_1_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0361</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0361</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_2">
+                <pose>2.6750 -0.2250 0.0298 0 0 0</pose>
+                <collision name="zone1_box_1_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0595</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0595</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_3">
+                <pose>2.6750 0.2250 0.0160 0 0 0</pose>
+                <collision name="zone1_box_1_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0321</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0321</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_4">
+                <pose>2.6750 0.6750 0.0227 0 0 0</pose>
+                <collision name="zone1_box_1_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0453</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0453</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_1_5">
+                <pose>2.6750 1.1250 0.0327 0 0 0</pose>
+                <collision name="zone1_box_1_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0654</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_1_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0654</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_0">
+                <pose>3.1250 -1.1250 0.0159 0 0 0</pose>
+                <collision name="zone1_box_2_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0319</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0319</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_1">
+                <pose>3.1250 -0.6750 0.0220 0 0 0</pose>
+                <collision name="zone1_box_2_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0439</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0439</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_2">
+                <pose>3.1250 -0.2250 0.0377 0 0 0</pose>
+                <collision name="zone1_box_2_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0755</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0755</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_3">
+                <pose>3.1250 0.2250 0.0341 0 0 0</pose>
+                <collision name="zone1_box_2_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0681</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0681</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_4">
+                <pose>3.1250 0.6750 0.0227 0 0 0</pose>
+                <collision name="zone1_box_2_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0454</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0454</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_2_5">
+                <pose>3.1250 1.1250 0.0356 0 0 0</pose>
+                <collision name="zone1_box_2_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0712</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_2_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0712</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_0">
+                <pose>3.5750 -1.1250 0.0433 0 0 0</pose>
+                <collision name="zone1_box_3_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0867</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0867</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_1">
+                <pose>3.5750 -0.6750 0.0152 0 0 0</pose>
+                <collision name="zone1_box_3_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0305</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0305</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_2">
+                <pose>3.5750 -0.2250 0.0432 0 0 0</pose>
+                <collision name="zone1_box_3_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0864</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0864</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_3">
+                <pose>3.5750 0.2250 0.0394 0 0 0</pose>
+                <collision name="zone1_box_3_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0789</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0789</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_4">
+                <pose>3.5750 0.6750 0.0269 0 0 0</pose>
+                <collision name="zone1_box_3_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0538</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0538</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_3_5">
+                <pose>3.5750 1.1250 0.0204 0 0 0</pose>
+                <collision name="zone1_box_3_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0409</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_3_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0409</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_0">
+                <pose>4.0250 -1.1250 0.0485 0 0 0</pose>
+                <collision name="zone1_box_4_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0970</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0970</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_1">
+                <pose>4.0250 -0.6750 0.0268 0 0 0</pose>
+                <collision name="zone1_box_4_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0536</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0536</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_2">
+                <pose>4.0250 -0.2250 0.0182 0 0 0</pose>
+                <collision name="zone1_box_4_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0365</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0365</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_3">
+                <pose>4.0250 0.2250 0.0184 0 0 0</pose>
+                <collision name="zone1_box_4_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0368</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0368</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_4">
+                <pose>4.0250 0.6750 0.0447 0 0 0</pose>
+                <collision name="zone1_box_4_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0893</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0893</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_4_5">
+                <pose>4.0250 1.1250 0.0361 0 0 0</pose>
+                <collision name="zone1_box_4_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0723</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_4_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0723</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_0">
+                <pose>4.4750 -1.1250 0.0432 0 0 0</pose>
+                <collision name="zone1_box_5_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0865</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0865</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_1">
+                <pose>4.4750 -0.6750 0.0405 0 0 0</pose>
+                <collision name="zone1_box_5_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0811</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0811</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_2">
+                <pose>4.4750 -0.2250 0.0338 0 0 0</pose>
+                <collision name="zone1_box_5_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0675</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0675</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_3">
+                <pose>4.4750 0.2250 0.0491 0 0 0</pose>
+                <collision name="zone1_box_5_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0981</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0981</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_4">
+                <pose>4.4750 0.6750 0.0282 0 0 0</pose>
+                <collision name="zone1_box_5_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0565</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0565</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_5_5">
+                <pose>4.4750 1.1250 0.0343 0 0 0</pose>
+                <collision name="zone1_box_5_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0686</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_5_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0686</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_0">
+                <pose>4.9250 -1.1250 0.0440 0 0 0</pose>
+                <collision name="zone1_box_6_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0881</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0881</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_1">
+                <pose>4.9250 -0.6750 0.0366 0 0 0</pose>
+                <collision name="zone1_box_6_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0733</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0733</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_2">
+                <pose>4.9250 -0.2250 0.0452 0 0 0</pose>
+                <collision name="zone1_box_6_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0903</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0903</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_3">
+                <pose>4.9250 0.2250 0.0352 0 0 0</pose>
+                <collision name="zone1_box_6_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0704</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0704</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_4">
+                <pose>4.9250 0.6750 0.0397 0 0 0</pose>
+                <collision name="zone1_box_6_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0793</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0793</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_6_5">
+                <pose>4.9250 1.1250 0.0166 0 0 0</pose>
+                <collision name="zone1_box_6_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0332</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_6_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0332</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_0">
+                <pose>5.3750 -1.1250 0.0230 0 0 0</pose>
+                <collision name="zone1_box_7_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0460</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0460</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_1">
+                <pose>5.3750 -0.6750 0.0251 0 0 0</pose>
+                <collision name="zone1_box_7_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0503</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0503</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_2">
+                <pose>5.3750 -0.2250 0.0178 0 0 0</pose>
+                <collision name="zone1_box_7_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0356</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0356</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_3">
+                <pose>5.3750 0.2250 0.0231 0 0 0</pose>
+                <collision name="zone1_box_7_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0463</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0463</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_4">
+                <pose>5.3750 0.6750 0.0185 0 0 0</pose>
+                <collision name="zone1_box_7_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0371</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0371</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_7_5">
+                <pose>5.3750 1.1250 0.0247 0 0 0</pose>
+                <collision name="zone1_box_7_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0495</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_7_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0495</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_0">
+                <pose>5.8250 -1.1250 0.0372 0 0 0</pose>
+                <collision name="zone1_box_8_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0745</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0745</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_1">
+                <pose>5.8250 -0.6750 0.0278 0 0 0</pose>
+                <collision name="zone1_box_8_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0555</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0555</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_2">
+                <pose>5.8250 -0.2250 0.0280 0 0 0</pose>
+                <collision name="zone1_box_8_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0559</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0559</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_3">
+                <pose>5.8250 0.2250 0.0223 0 0 0</pose>
+                <collision name="zone1_box_8_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0447</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0447</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_4">
+                <pose>5.8250 0.6750 0.0243 0 0 0</pose>
+                <collision name="zone1_box_8_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0487</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0487</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_8_5">
+                <pose>5.8250 1.1250 0.0478 0 0 0</pose>
+                <collision name="zone1_box_8_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0956</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_8_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0956</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_0">
+                <pose>6.2750 -1.1250 0.0377 0 0 0</pose>
+                <collision name="zone1_box_9_0_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0754</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_0_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0754</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_1">
+                <pose>6.2750 -0.6750 0.0363 0 0 0</pose>
+                <collision name="zone1_box_9_1_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0726</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_1_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0726</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_2">
+                <pose>6.2750 -0.2250 0.0210 0 0 0</pose>
+                <collision name="zone1_box_9_2_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0420</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_2_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0420</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_3">
+                <pose>6.2750 0.2250 0.0405 0 0 0</pose>
+                <collision name="zone1_box_9_3_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0810</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_3_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0810</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_4">
+                <pose>6.2750 0.6750 0.0207 0 0 0</pose>
+                <collision name="zone1_box_9_4_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0414</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_4_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0414</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone1_box_9_5">
+                <pose>6.2750 1.1250 0.0283 0 0 0</pose>
+                <collision name="zone1_box_9_5_col">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0566</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone1_box_9_5_vis">
+                    <geometry>
+                        <box><size>0.4450 0.4450 0.0566</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.3 0.2 1</ambient>
+                        <diffuse>0.65 0.45 0.25 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="trans1_mat">
+                <pose>7.2500 0.0000 0.001 0 0 0</pose>
+                <visual name="trans1_mat_vis">
+                    <geometry>
+                        <box><size>1.5000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_up_0">
+                <pose>8.1500 0.0000 0.0400 0 0 0</pose>
+                <collision name="zone2_stair_up_0_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0800</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_up_0_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0800</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_up_1">
+                <pose>8.4500 0.0000 0.0800 0 0 0</pose>
+                <collision name="zone2_stair_up_1_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.1600</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_up_1_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.1600</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_up_2">
+                <pose>8.7500 0.0000 0.1200 0 0 0</pose>
+                <collision name="zone2_stair_up_2_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.2400</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_up_2_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.2400</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_up_3">
+                <pose>9.0500 0.0000 0.1600 0 0 0</pose>
+                <collision name="zone2_stair_up_3_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.3200</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_up_3_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.3200</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_up_4">
+                <pose>9.3500 0.0000 0.2000 0 0 0</pose>
+                <collision name="zone2_stair_up_4_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.4000</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_up_4_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.4000</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stairs_top">
+                <pose>10.1000 0.0000 0.2000 0 0 0</pose>
+                <collision name="zone2_stairs_top_col">
+                    <geometry>
+                        <box><size>1.2000 2.8000 0.4000</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stairs_top_vis">
+                    <geometry>
+                        <box><size>1.2000 2.8000 0.4000</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.4 0.4 1</ambient>
+                        <diffuse>0.6 0.6 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_down_0">
+                <pose>10.8500 0.0000 0.1600 0 0 0</pose>
+                <collision name="zone2_stair_down_0_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.3200</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_down_0_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.3200</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_down_1">
+                <pose>11.1500 0.0000 0.1200 0 0 0</pose>
+                <collision name="zone2_stair_down_1_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.2400</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_down_1_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.2400</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_down_2">
+                <pose>11.4500 0.0000 0.0800 0 0 0</pose>
+                <collision name="zone2_stair_down_2_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.1600</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_down_2_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.1600</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_down_3">
+                <pose>11.7500 0.0000 0.0400 0 0 0</pose>
+                <collision name="zone2_stair_down_3_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0800</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_down_3_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0800</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone2_stair_down_4">
+                <pose>12.0500 0.0000 0.0050 0 0 0</pose>
+                <collision name="zone2_stair_down_4_col">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0100</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone2_stair_down_4_vis">
+                    <geometry>
+                        <box><size>0.3000 2.8000 0.0100</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.35 1</ambient>
+                        <diffuse>0.55 0.55 0.55 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="trans2_mat">
+                <pose>13.4000 0.0000 0.001 0 0 0</pose>
+                <visual name="trans2_mat_vis">
+                    <geometry>
+                        <box><size>1.2000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_entry_step">
+                <pose>14.3000 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_entry_step_col">
+                    <geometry>
+                        <box><size>0.6000 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_entry_step_vis">
+                    <geometry>
+                        <box><size>0.6000 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_gap_plank_0">
+                <pose>15.0550 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_gap_plank_0_col">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_gap_plank_0_vis">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_gap_plank_1">
+                <pose>15.8250 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_gap_plank_1_col">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_gap_plank_1_vis">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_gap_plank_2">
+                <pose>16.6350 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_gap_plank_2_col">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_gap_plank_2_vis">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_gap_plank_3">
+                <pose>17.4850 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_gap_plank_3_col">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_gap_plank_3_vis">
+                    <geometry>
+                        <box><size>0.5500 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone3_exit_step">
+                <pose>18.0600 0.0000 0.1250 0 0 0</pose>
+                <collision name="zone3_exit_step_col">
+                    <geometry>
+                        <box><size>0.6000 2.8000 0.2500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone3_exit_step_vis">
+                    <geometry>
+                        <box><size>0.6000 2.8000 0.2500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.45 0.25 0.15 1</ambient>
+                        <diffuse>0.7 0.35 0.2 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="trans3_mat">
+                <pose>19.1100 0.0000 0.001 0 0 0</pose>
+                <visual name="trans3_mat_vis">
+                    <geometry>
+                        <box><size>1.5000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone4_ramp_up">
+                <pose>20.8600 0.0000 0.2250 0 -0.2213 0</pose>
+                <collision name="zone4_ramp_up_col">
+                    <geometry>
+                        <box><size>2.0500 2.8000 0.0600</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone4_ramp_up_vis">
+                    <geometry>
+                        <box><size>2.0500 2.8000 0.0600</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.2 1</ambient>
+                        <diffuse>0.65 0.6 0.3 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone4_ramp_peak">
+                <pose>22.4600 0.0000 0.2250 0 0 0</pose>
+                <collision name="zone4_ramp_peak_col">
+                    <geometry>
+                        <box><size>1.2000 2.8000 0.4500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone4_ramp_peak_vis">
+                    <geometry>
+                        <box><size>1.2000 2.8000 0.4500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.2 1</ambient>
+                        <diffuse>0.65 0.6 0.3 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone4_ramp_down">
+                <pose>24.0600 0.0000 0.2250 0 0.2213 0</pose>
+                <collision name="zone4_ramp_down_col">
+                    <geometry>
+                        <box><size>2.0500 2.8000 0.0600</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone4_ramp_down_vis">
+                    <geometry>
+                        <box><size>2.0500 2.8000 0.0600</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.35 0.35 0.2 1</ambient>
+                        <diffuse>0.65 0.6 0.3 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="trans4_mat">
+                <pose>25.8100 0.0000 0.001 0 0 0</pose>
+                <visual name="trans4_mat_vis">
+                    <geometry>
+                        <box><size>1.5000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_0">
+                <pose>26.5600 0.2800 0.0597 0 0 0</pose>
+                <collision name="zone5_stake_left_0_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1194</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_0_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1194</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_0">
+                <pose>26.8100 -0.2800 0.0492 0 0 0</pose>
+                <collision name="zone5_stake_right_0_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0984</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_0_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0984</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_1">
+                <pose>27.0600 0.2800 0.0467 0 0 0</pose>
+                <collision name="zone5_stake_left_1_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0934</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_1_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0934</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_1">
+                <pose>27.3100 -0.2800 0.0505 0 0 0</pose>
+                <collision name="zone5_stake_right_1_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1011</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_1_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1011</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_2">
+                <pose>27.5600 0.2800 0.0553 0 0 0</pose>
+                <collision name="zone5_stake_left_2_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1106</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_2_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1106</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_2">
+                <pose>27.8100 -0.2800 0.0533 0 0 0</pose>
+                <collision name="zone5_stake_right_2_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1066</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_2_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1066</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_3">
+                <pose>28.0600 0.2800 0.0369 0 0 0</pose>
+                <collision name="zone5_stake_left_3_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0737</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_3_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0737</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_3">
+                <pose>28.3100 -0.2800 0.0310 0 0 0</pose>
+                <collision name="zone5_stake_right_3_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0619</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_3_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0619</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_4">
+                <pose>28.5600 0.2800 0.0395 0 0 0</pose>
+                <collision name="zone5_stake_left_4_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0789</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_4_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0789</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_4">
+                <pose>28.8100 -0.2800 0.0380 0 0 0</pose>
+                <collision name="zone5_stake_right_4_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0761</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_4_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0761</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_5">
+                <pose>29.0600 0.2800 0.0363 0 0 0</pose>
+                <collision name="zone5_stake_left_5_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0727</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_5_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0727</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_5">
+                <pose>29.3100 -0.2800 0.0583 0 0 0</pose>
+                <collision name="zone5_stake_right_5_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1166</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_5_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1166</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_6">
+                <pose>29.5600 0.2800 0.0563 0 0 0</pose>
+                <collision name="zone5_stake_left_6_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1126</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_6_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.1126</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_6">
+                <pose>29.8100 -0.2800 0.0394 0 0 0</pose>
+                <collision name="zone5_stake_right_6_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0789</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_6_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0789</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_left_7">
+                <pose>30.0600 0.2800 0.0497 0 0 0</pose>
+                <collision name="zone5_stake_left_7_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0993</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_left_7_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0993</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone5_stake_right_7">
+                <pose>30.3100 -0.2800 0.0419 0 0 0</pose>
+                <collision name="zone5_stake_right_7_col">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0837</length></cylinder>
+                    </geometry>
+                </collision>
+                <visual name="zone5_stake_right_7_vis">
+                    <geometry>
+                        <cylinder><radius>0.1600</radius><length>0.0837</length></cylinder>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.2 1</ambient>
+                        <diffuse>0.3 0.6 0.35 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="trans5_mat">
+                <pose>31.8100 0.0000 0.001 0 0 0</pose>
+                <visual name="trans5_mat_vis">
+                    <geometry>
+                        <box><size>1.5000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.3 0.3 0.35 1</ambient>
+                        <diffuse>0.45 0.5 0.6 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone6_bridge_entry">
+                <pose>32.8100 0.0000 0.0750 0 0 0</pose>
+                <collision name="zone6_bridge_entry_col">
+                    <geometry>
+                        <box><size>0.5000 0.6000 0.1500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone6_bridge_entry_vis">
+                    <geometry>
+                        <box><size>0.5000 0.6000 0.1500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.2 0.3 1</ambient>
+                        <diffuse>0.7 0.3 0.45 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone6_narrow_bridge">
+                <pose>34.5600 0.0000 0.0750 0 0 0</pose>
+                <collision name="zone6_narrow_bridge_col">
+                    <geometry>
+                        <box><size>3.0000 0.3800 0.1500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone6_narrow_bridge_vis">
+                    <geometry>
+                        <box><size>3.0000 0.3800 0.1500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.2 0.3 1</ambient>
+                        <diffuse>0.7 0.3 0.45 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone6_bridge_exit">
+                <pose>36.3100 0.0000 0.0750 0 0 0</pose>
+                <collision name="zone6_bridge_exit_col">
+                    <geometry>
+                        <box><size>0.5000 0.6000 0.1500</size></box>
+                    </geometry>
+                </collision>
+                <visual name="zone6_bridge_exit_vis">
+                    <geometry>
+                        <box><size>0.5000 0.6000 0.1500</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.4 0.2 0.3 1</ambient>
+                        <diffuse>0.7 0.3 0.45 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="zone7_finish_mat">
+                <pose>38.0600 0.0000 0.001 0 0 0</pose>
+                <visual name="zone7_finish_mat_vis">
+                    <geometry>
+                        <box><size>3.0000 2.8000 0.002</size></box>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.35 0.4 1</ambient>
+                        <diffuse>0.3 0.6 0.7 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+        </model>
+
+    </world>
+</sdf>
