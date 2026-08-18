@@ -12,6 +12,7 @@ import numpy as np
 import rclpy
 import yaml
 from geometry_msgs.msg import Twist
+from grid_map_msgs.msg import GridMap
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
 from robot_msgs.msg import MotorCommand, RobotCommand, RobotState as RobotStateMsg
@@ -54,7 +55,6 @@ class DeployNode(Node):
         self.declare_parameter("get_up_duration", 2.0)
         self.declare_parameter("get_down_duration", 2.0)
         self.declare_parameter("start_joint_controller", True)
-        self.declare_parameter("start_elevation_map_adapter", True)
         self.declare_parameter("reset_world_on_start", True)
 
         robot = self.get_parameter("robot").value
@@ -84,7 +84,6 @@ class DeployNode(Node):
             raise
 
         self._runtime.enabled = control_enabled
-        self._elevation_adapter_process = None
         self._robot_name = robot
         self._policy_name = policy_name
 
@@ -95,7 +94,7 @@ class DeployNode(Node):
         self._latest_odom: Optional[Odometry] = None
         self._latest_cmd_vel: Optional[Twist] = None
         self._latest_robot_state: Optional[RobotStateMsg] = None
-        self._latest_sensors: Dict[str, np.ndarray] = {}
+        self._latest_sensors: Dict[str, Any] = {}
         self._sensor_timestamps: Dict[str, float] = {}
         self._sensor_subscriptions: Dict[str, Any] = {}
         self._num_joints = self._runtime.manifest["robot"]["num_joints"]
@@ -149,8 +148,6 @@ class DeployNode(Node):
 
         if self._parse_bool(self.get_parameter("start_joint_controller").value):
             self._start_joint_controller()
-        if self._parse_bool(self.get_parameter("start_elevation_map_adapter").value):
-            self._start_elevation_map_adapter(robot, policy_name, policy_root)
 
         self._imu_sub = self.create_subscription(
             Imu,
@@ -219,24 +216,34 @@ class DeployNode(Node):
         )
 
     def _subscribe_sensor(self, sensor_name: str, topic: str) -> None:
-        def make_callback(name: str):
-            def callback(msg: Float32MultiArray) -> None:
-                value = np.asarray(msg.data, dtype=np.float32)
-                expected_shape = self._runtime.sensor_shape(name)
-                if expected_shape is not None and value.size != int(np.prod(expected_shape)):
-                    self.get_logger().warning(
-                        f"Ignoring {name}: got {value.size} values, "
-                        f"expected {int(np.prod(expected_shape))}"
-                    )
-                    return
-                self._latest_sensors[name] = value
-                self._sensor_timestamps[name] = time.time()
-            return callback
-
+        sensor_type = self._runtime.sensor_type(sensor_name)
         qos = rclpy.qos.qos_profile_sensor_data
-        sub = self.create_subscription(
-            Float32MultiArray, topic, make_callback(sensor_name), qos
-        )
+
+        if sensor_type == "grid_map":
+            def callback(msg: GridMap) -> None:
+                self._latest_sensors[sensor_name] = msg
+                self._sensor_timestamps[sensor_name] = time.time()
+
+            sub = self.create_subscription(GridMap, topic, callback, qos)
+        else:
+            def make_callback(name: str):
+                def callback(msg: Float32MultiArray) -> None:
+                    value = np.asarray(msg.data, dtype=np.float32)
+                    expected_shape = self._runtime.sensor_shape(name)
+                    if expected_shape is not None and value.size != int(np.prod(expected_shape)):
+                        self.get_logger().warning(
+                            f"Ignoring {name}: got {value.size} values, "
+                            f"expected {int(np.prod(expected_shape))}"
+                        )
+                        return
+                    self._latest_sensors[name] = value
+                    self._sensor_timestamps[name] = time.time()
+                return callback
+
+            sub = self.create_subscription(
+                Float32MultiArray, topic, make_callback(sensor_name), qos
+            )
+
         self._sensor_subscriptions[sensor_name] = sub
 
     def _start_joint_controller(self) -> None:
@@ -272,22 +279,6 @@ class DeployNode(Node):
                 f"Failed to start {controller_name}: {result.stdout.strip()}"
             )
         self.get_logger().info(f"Started {controller_name}")
-
-    def _start_elevation_map_adapter(
-        self, robot: str, policy_name: str, policy_root: str
-    ) -> None:
-        if "elevation_map" not in self._runtime.manifest.get("sensors", {}):
-            return
-        self._elevation_adapter_process = subprocess.Popen(
-            [
-                "ros2", "run", "rl_policy_runtime", "elevation_map_adapter",
-                "--ros-args", "-p", f"robot:={robot}",
-                "-p", f"policy:={policy_name}", "-p", f"policy_root:={policy_root}",
-            ],
-            stdout=None,
-            stderr=None,
-        )
-        self.get_logger().info("Started policy elevation-map adapter")
 
     def _imu_callback(self, msg: Imu) -> None:
         self._latest_imu = msg
@@ -362,9 +353,18 @@ class DeployNode(Node):
             dtype=np.float32,
         )
 
+        base_position = np.zeros(3, dtype=np.float32)
         linear_velocity = np.zeros(3, dtype=np.float32)
         if self._latest_odom is not None:
             odom = self._latest_odom
+            base_position = np.array(
+                [
+                    odom.pose.pose.position.x,
+                    odom.pose.pose.position.y,
+                    odom.pose.pose.position.z,
+                ],
+                dtype=np.float32,
+            )
             linear_velocity = np.array(
                 [
                     odom.twist.twist.linear.x,
@@ -388,6 +388,7 @@ class DeployNode(Node):
             angular_velocity=angular_velocity,
             linear_velocity=linear_velocity,
             command=command,
+            base_position=base_position,
         )
 
     def _check_sensor_freshness(self) -> bool:
@@ -632,13 +633,6 @@ class DeployNode(Node):
         if self._terminal_dashboard is not None:
             self._terminal_dashboard.stop()
             self._terminal_dashboard = None
-        if self._elevation_adapter_process is not None:
-            self._elevation_adapter_process.terminate()
-            try:
-                self._elevation_adapter_process.wait(timeout=2)
-            except subprocess.TimeoutExpired:
-                self._elevation_adapter_process.kill()
-            self._elevation_adapter_process = None
         self._restore_terminal()
         return super().destroy_node()
 

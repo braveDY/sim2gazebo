@@ -14,12 +14,8 @@ fsm:
 
 sensors:
   elevation_map:
-    topic: /ame_elevation_map
-    size: [1.2, 0.8]
-    offset: [0.375, 0.0]
-    resolution: 0.05
-    clip: [-1.2, 0.0]
-    shape: [17, 25, 3]
+    topic: /filtered_map
+    type: grid_map
     timeout_sec: 0.25
     required: true
 
@@ -46,3 +42,8 @@ policy_config:
   ang_vel_scale: 1.0
   dof_vel_scale: 0.05
   ame_default_dof_pos: [0.1, -0.1, 0.1, -0.1, 0.8, 0.8, 1.0, 1.0, -1.5, -1.5, -1.5, -1.5]
+  elevation_size: [1.2, 0.8]
+  elevation_offset: [0.375, 0.0]
+  elevation_resolution: 0.05
+  elevation_clip: [-1.2, 0.0]
+  elevation_layer: elevation

@@ -7,8 +7,8 @@
 - 模型后端：TorchScript（`torch.jit.load`）。
 - 机器人：当前 Go2 配置为 12 个关节，策略输出必须是 12 个归一化动作。
 - 控制：运行时将动作缩放并转换为 `q/dq/tau/kp/kd`；底层 `robot_joint_controller` 负责 PD 力矩计算。
-- 传感器：部署节点订阅 manifest 中声明的 `std_msgs/msg/Float32MultiArray` 话题，并在进入策略前检查数据长度和新鲜度。
-- 高程图：若声明名为 `elevation_map` 的传感器，部署节点会自动启动通用 `/filtered_map` 适配器。高程图几何由策略 manifest 决定，建图包不需要也不接受策略名。
+- 传感器：部署节点直接订阅 manifest 中声明的传感器话题（支持 `grid_map_msgs/msg/GridMap` 和 `std_msgs/msg/Float32MultiArray`），并在进入策略前检查新鲜度。
+- 高程图：策略声明 `type: grid_map` 后，部署节点直接订阅高程图话题（如 `/filtered_map` 或 `/elevation_mapping_node/elevation_map_filter`），并将完整的 `GridMap` 消息直接传递给 `policy.py`。策略可使用 `policy_api` 提供的通用采样函数 `sample_grid_map` 或自主编写任意解析/采样逻辑。
 
 ---
 
@@ -51,20 +51,10 @@ fsm:
 
 sensors:
   elevation_map:
-    # 运行时适配器发布的话题，同时也是 policy.py 中 sensors 的键。
-    topic: /ame_elevation_map
-    # 仅作长度校验；数据仍以一维 float 数组传入 policy.py。
-    shape: [17, 25, 3]
-    required: true
+    topic: /filtered_map
+    type: grid_map
     timeout_sec: 0.25
-
-    # 以下字段由高程图适配器使用。采样点数应满足
-    # (size_x / resolution + 1) * (size_y / resolution + 1) * 3 == prod(shape)。
-    layer: elevation
-    size: [1.2, 0.8]
-    offset: [0.375, 0.0]
-    resolution: 0.05
-    clip: [-1.2, 0.0]
+    required: true
 
 robot:
   num_joints: 12
@@ -283,17 +273,18 @@ feature = sensors["pointcloud_feature"].reshape(64)
 ---
 
 ## 6. 高程图策略配置
-
-`elevation_map_adapter` 从 `/filtered_map` 和 `/odom` 采样，并输出每个点的 `[x, y, relative_height]`。点云以机器人 yaw 对齐，`relative_height` 会按 `clip` 裁剪。
-
+ 
+策略直接接收 `GridMap` 消息，并在 `policy.py` 中根据自身模型需求处理。`policy_api` 提供了 `sample_grid_map` 和 `create_grid_points` 辅助函数。
+ 
 常用策略采样几何对照：
-
-| 策略 | `size` | `offset` | `resolution` | `shape` | 数据长度 |
+ 
+| 策略 | `elevation_size` | `elevation_offset` | `elevation_resolution` | 采样点数 | 模型输入形状 |
 | --- | --- | --- | --- | --- | --- |
-| `cnn` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | `[17, 25, 3]` | 1275 |
-| `ame` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | `[17, 25, 3]` | 1275 |
-| `quad_mwm` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | `[17, 25, 3]` | 1275 |
-| `isaaclab_ame` | `[1.6, 1.0]` | `[0.0, 0.0]` | `0.05` | `[21, 33, 3]` | 2079 |
+| `cnn` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | 425 | `(1, 1, 17, 25)` 2D 卷积网格 |
+| `ame` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | 425 | `(1275,)` [x, y, rel_z] 点集 |
+| `quad_mwm` | `[1.2, 0.8]` | `[0.375, 0.0]` | `0.05` | 425 | `(1275,)` [x, y, rel_z] 点集 |
+| `isaaclab_ame` | `[1.6, 1.0]` | `[0.0, 0.0]` | `0.05` | 693 | `(2079,)` [x, y, rel_z] 点集 |
+| `isaaclab_go2` | `[1.6, 1.0]` | `[0.0, 0.0]` | `0.1` | 187 | `(187,)` 1D 相对高度扫描 |
 
 ---
 

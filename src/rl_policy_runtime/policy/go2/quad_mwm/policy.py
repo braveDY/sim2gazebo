@@ -3,7 +3,14 @@ from collections import deque
 import numpy as np
 import torch
 
-from rl_policy_runtime.policy_api import Policy as BasePolicy, RobotState
+from rl_policy_runtime.policy_api import (
+    Policy as BasePolicy,
+    RobotState,
+    create_grid_points,
+    quat_to_euler_xyz,
+    sample_grid_map,
+)
+
 
 class HistoryBuffer:
     def __init__(self, history_len: int = 1) -> None:
@@ -44,13 +51,20 @@ class Policy(BasePolicy):
         self.ame_default_dof_pos = np.array(config["ame_default_dof_pos"], dtype=np.float32)
         self.history_buffer = HistoryBuffer(history_len=int(config.get("proprio_history_length", 4)))
 
+        size = config.get("elevation_size", [1.2, 0.8])
+        offset = config.get("elevation_offset", [0.375, 0.0])
+        resolution = float(config.get("elevation_resolution", 0.05))
+        self.points_xy = create_grid_points(size=size, resolution=resolution, offset=offset)
+        self.clip = tuple(float(v) for v in config.get("elevation_clip", [-1.2, 0.0]))
+        self.layer = str(config.get("elevation_layer", "elevation"))
+
     def reset(self) -> None:
         self.history_buffer.reset()
 
     def infer(
         self,
         state: RobotState,
-        sensors: Mapping[str, np.ndarray],
+        sensors: Mapping[str, Any],
     ) -> np.ndarray:
         proprio = self.build_proprio_features(
             state=state,
@@ -59,7 +73,17 @@ class Policy(BasePolicy):
             dof_vel_scale=self.dof_vel_scale,
             include_lin_vel=False,
         )
-        elevation_map = sensors["elevation_map"].astype(np.float32).reshape(-1)
+
+        grid_map_msg = sensors.get("elevation_map")
+        if grid_map_msg is not None:
+            yaw = quat_to_euler_xyz(state.quaternion_wxyz)[2]
+            sampled_z = sample_grid_map(
+                grid_map_msg, state.base_position, yaw, self.points_xy, self.layer, self.clip
+            )
+            elevation_map = np.column_stack((self.points_xy, sampled_z)).astype(np.float32).reshape(-1)
+        else:
+            elevation_map = np.zeros(len(self.points_xy) * 3, dtype=np.float32)
+
         observation = np.concatenate([proprio, elevation_map], dtype=np.float32)
 
         if self.history_buffer.is_empty:

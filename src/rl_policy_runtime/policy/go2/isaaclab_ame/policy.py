@@ -3,7 +3,13 @@ from typing import Any, Dict, Mapping
 import numpy as np
 import torch
 
-from rl_policy_runtime.policy_api import Policy as BasePolicy, RobotState
+from rl_policy_runtime.policy_api import (
+    Policy as BasePolicy,
+    RobotState,
+    create_grid_points,
+    quat_to_euler_xyz,
+    sample_grid_map,
+)
 
 
 class Policy(BasePolicy):
@@ -20,6 +26,13 @@ class Policy(BasePolicy):
         self.ame_default_dof_pos = np.array(config["ame_default_dof_pos"], dtype=np.float32)
         self.gazebo_to_policy = gazebo_to_policy
         self.policy_to_gazebo = policy_to_gazebo
+
+        size = config.get("elevation_size", [1.6, 1.0])
+        offset = config.get("elevation_offset", [0.0, 0.0])
+        resolution = float(config.get("elevation_resolution", 0.05))
+        self.points_xy = create_grid_points(size=size, resolution=resolution, offset=offset)
+        self.clip = tuple(float(v) for v in config.get("elevation_clip", [-1.2, 0.0]))
+        self.layer = str(config.get("elevation_layer", "elevation"))
 
     def reset(self) -> None:
         pass
@@ -54,9 +67,17 @@ class Policy(BasePolicy):
     def infer(
         self,
         state: RobotState,
-        sensors: Mapping[str, np.ndarray],
+        sensors: Mapping[str, Any],
     ) -> np.ndarray:
-        elevation_map = sensors["elevation_map"].astype(np.float32).reshape(-1)
+        grid_map_msg = sensors.get("elevation_map")
+        if grid_map_msg is not None:
+            yaw = quat_to_euler_xyz(state.quaternion_wxyz)[2]
+            sampled_z = sample_grid_map(
+                grid_map_msg, state.base_position, yaw, self.points_xy, self.layer, self.clip
+            )
+            elevation_map = np.column_stack((self.points_xy, sampled_z)).astype(np.float32).reshape(-1)
+        else:
+            elevation_map = np.zeros(len(self.points_xy) * 3, dtype=np.float32)
 
         proprio = self._build_proprio(state)
 

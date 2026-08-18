@@ -14,12 +14,8 @@ fsm:
 
 sensors:
   elevation_map:
-    topic: /isaaclab_elevation_map
-    size: [1.6, 1.0]
-    offset: [0.0, 0.0]
-    resolution: 0.1
-    clip: [-1.2, 0.0]
-    shape: [17, 11, 3]
+    topic: /filtered_map
+    type: grid_map
     timeout_sec: 0.25
     required: true
 
@@ -43,3 +39,8 @@ policy_config:
   default_joint_pos: [0.1, -0.1, 0.1, -0.1, 0.8, 0.8, 1.0, 1.0, -1.5, -1.5, -1.5, -1.5]
   height_scan_offset: 0.5
   height_scan_shape: [17, 11]
+  elevation_size: [1.6, 1.0]
+  elevation_offset: [0.0, 0.0]
+  elevation_resolution: 0.1
+  elevation_clip: [-1.2, 0.0]
+  elevation_layer: elevation

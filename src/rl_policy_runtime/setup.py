@@ -33,7 +33,6 @@ setup(
     entry_points={
         "console_scripts": [
             "deploy_node = rl_policy_runtime.deploy_node:main",
-            "elevation_map_adapter = rl_policy_runtime.elevation_map_adapter:main",
         ],
     },
 )

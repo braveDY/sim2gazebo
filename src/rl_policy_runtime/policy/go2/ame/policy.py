@@ -3,7 +3,14 @@ from typing import Any, Dict, Mapping
 import numpy as np
 import torch
 
-from rl_policy_runtime.policy_api import Policy as BasePolicy, RobotState, project_gravity
+from rl_policy_runtime.policy_api import (
+    Policy as BasePolicy,
+    RobotState,
+    create_grid_points,
+    project_gravity,
+    quat_to_euler_xyz,
+    sample_grid_map,
+)
 
 
 class Policy(BasePolicy):
@@ -21,10 +28,17 @@ class Policy(BasePolicy):
         self.gazebo_to_policy = gazebo_to_policy
         self.policy_to_gazebo = policy_to_gazebo
 
+        size = config.get("elevation_size", [1.2, 0.8])
+        offset = config.get("elevation_offset", [0.375, 0.0])
+        resolution = float(config.get("elevation_resolution", 0.05))
+        self.points_xy = create_grid_points(size=size, resolution=resolution, offset=offset)
+        self.clip = tuple(float(v) for v in config.get("elevation_clip", [-1.2, 0.0]))
+        self.layer = str(config.get("elevation_layer", "elevation"))
+
     def infer(
         self,
         state: RobotState,
-        sensors: Mapping[str, np.ndarray],
+        sensors: Mapping[str, Any],
     ) -> np.ndarray:
         current_joint_pos = state.joint_pos[self.gazebo_to_policy]
         current_joint_vel = state.joint_vel[self.gazebo_to_policy]
@@ -37,7 +51,17 @@ class Policy(BasePolicy):
             current_joint_vel * self.dof_vel_scale,
             previous_action,
         ]).astype(np.float32)
-        elevation_map = sensors["elevation_map"].astype(np.float32).reshape(-1)
+
+        grid_map_msg = sensors.get("elevation_map")
+        if grid_map_msg is not None:
+            yaw = quat_to_euler_xyz(state.quaternion_wxyz)[2]
+            sampled_z = sample_grid_map(
+                grid_map_msg, state.base_position, yaw, self.points_xy, self.layer, self.clip
+            )
+            elevation_map = np.column_stack((self.points_xy, sampled_z)).astype(np.float32).reshape(-1)
+        else:
+            elevation_map = np.zeros(len(self.points_xy) * 3, dtype=np.float32)
+
         observation = np.concatenate([proprio, elevation_map], dtype=np.float32)
 
         with torch.no_grad():

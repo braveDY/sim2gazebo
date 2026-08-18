@@ -141,6 +141,9 @@ class PolicyRuntime:
         cfg = self._sensors_cfg.get(sensor_name, {})
         return cfg.get("timeout_sec", 0.5)
 
+    def sensor_type(self, sensor_name: str) -> str:
+        return self._sensors_cfg.get(sensor_name, {}).get("type", "float32_multiarray")
+
     def _load(self) -> None:
         if self._loaded:
             return
@@ -184,7 +187,7 @@ class PolicyRuntime:
         self._loaded = True
 
     def step(
-        self, state: RobotState, sensors: Dict[str, np.ndarray]
+        self, state: RobotState, sensors: Dict[str, Any]
     ) -> Optional[np.ndarray]:
         if not self._enabled or not self._loaded:
             return None
