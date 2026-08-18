@@ -14,7 +14,7 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             "policy",
-            default_value=TextSubstitution(text="isaaclab_ame"),
+            default_value=TextSubstitution(text="quad_mwm"),
             description="Policy name to deploy",
         ),
         DeclareLaunchArgument(
@@ -29,8 +29,8 @@ def generate_launch_description():
         ),
         DeclareLaunchArgument(
             "keyboard_enabled",
-            default_value=TextSubstitution(text="false"),
-            description="Enable terminal keyboard input (use ros2 run for this)",
+            default_value=TextSubstitution(text="true"),
+            description="Enable terminal keyboard input",
         ),
         Node(
             package="rl_policy_runtime",

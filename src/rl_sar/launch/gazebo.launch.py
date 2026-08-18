@@ -159,12 +159,12 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "wname",
             description="Gazebo world name (stairs, terrain_track)",
-            default_value=TextSubstitution(text="stairs"),
+            default_value=TextSubstitution(text="terrain_track"),
         ),
         DeclareLaunchArgument(
             "enable_truth_tf",
             description="Enable Gazebo ground truth TF broadcast and /odom publisher",
-            default_value=TextSubstitution(text="true"),
+            default_value=TextSubstitution(text="false"),
         ),
         robot_state_publisher_node,
         gazebo,

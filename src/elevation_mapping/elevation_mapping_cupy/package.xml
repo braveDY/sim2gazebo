@@ -19,7 +19,6 @@
     <depend>geometry_msgs</depend>
     <depend>elevation_map_msgs</depend>
     <depend>grid_map_msgs</depend>
-    <exec_depend>convex_plane_decomposition_ros</exec_depend>
     <depend>python3-scipy</depend>
     <depend>python3-numpy</depend>
     <depend>tf2_ros</depend>
