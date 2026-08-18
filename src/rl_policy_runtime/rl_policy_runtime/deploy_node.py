@@ -55,7 +55,7 @@ class DeployNode(Node):
         self.declare_parameter("get_up_duration", 2.0)
         self.declare_parameter("get_down_duration", 2.0)
         self.declare_parameter("start_joint_controller", True)
-        self.declare_parameter("reset_world_on_start", False)
+        self.declare_parameter("reset_world_on_start", True)
 
         robot = self.get_parameter("robot").value
         policy_name = self.get_parameter("policy").value
@@ -477,9 +477,8 @@ class DeployNode(Node):
 
     def _command_for_state(self, state: PolicyRobotState) -> Optional[np.ndarray]:
         if self._controller_state == ControllerState.PASSIVE:
-            target = self._fsm_standing_joint_pos if self._get_up_complete else state.joint_pos
             return self._runtime.position_command(
-                state, target, self._fixed_kp, self._fixed_kd
+                state, self._fsm_standing_joint_pos, self._fixed_kp, self._fixed_kd
             )
 
         elapsed = time.monotonic() - self._state_started_at

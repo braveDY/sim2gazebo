@@ -1,128 +1,134 @@
-# rl_sar：Go2 Gazebo 策略仿真
+# 无 odom Go2 Gazebo 策略仿真
 
-基于 **Gazebo Classic** 的 Go2 强化学习策略部署工程。策略运行时由 Python 包 `rl_policy_runtime` 提供，新增策略只需在 `policy/go2/<name>/` 下添加模型、`manifest.yaml` 与 `policy.py`，无需改动框架代码。此分支不含 Unitree SDK，**不能用于实机低层控制**。
+本分支 `feat/no-odom-quad-mwm` 用于在 Gazebo 中验证 Go2 的 `quad_mwm` 策略，运行时不启用 Gazebo 真值里程计，也不发布 `odom -> base` TF。高程图改为在 `base` 坐标系内构建，策略控制器使用 `/imu`、关节状态和局部高程图。
+
+本分支仅用于仿真验证，不包含 Unitree SDK，不能用于实机低层控制。
+
+## 当前链路
 
 ```text
-rl_sar                          Gazebo 世界、机器人生成、TF 与点云过滤
-elevation_mapping_cupy          通用高程图建图（/filtered_map）
-rl_policy_runtime               FSM、策略加载、终端交互与关节命令
-└── policy/go2/<name>           策略模型、manifest 与预处理代码
+Gazebo
+  ├─ /imu
+  ├─ /robot_joint_controller/state
+  └─ /utlidar/cloud
+       ↓
+点云自滤波 → /utlidar/cloud_filtered
+       ↓
+elevation_mapping_cupy（map_frame=base）
+       ↓
+/elevation_mapping_node/elevation_map_filter
+       ↓
+rl_policy_runtime（quad_mwm）
+       ↓
+/robot_joint_controller/command
 ```
 
-数据流：`Gazebo → /imu、/odom、关节状态 → elevation_mapping_cupy → /filtered_map → rl_policy_runtime → /robot_joint_controller/command`。若策略声明 `elevation_map` 传感器，运行时按 manifest 自动启动高程图适配器生成 `/ame_elevation_map`。
+无 odom 模式下不应存在 `/odom` 或 `odom -> base` TF。高程图的消息头坐标系必须是 `base`。
 
-## 环境部署
+## 启动
 
-### 1. 构建 Docker 镜像
-
-为执行 shell 脚本设置权限，然后运行脚本构建镜像（约 15–20 分钟）。`build.sh` 默认使用 FastDDS/FastRTPS 构建：
-
-```bash
-cd src/elevation_mapping/docker
-chmod +x build.sh docker/run.sh
-ROS_DISTRO=humble ./build.sh        # build.sh 默认 ROS_DISTRO=jazzy，本项目使用 Humble
-```
-
-镜像构建细节与排障记录见 [evelutionMap_docker_build.md](src/elevation_mapping/evelutionMap_docker_build.md)。
-
-### 2. 进入容器
-
-使用 `src/elevation_mapping/em_gpu_humble.sh` 中的函数进入容器（首次自动创建，挂载宿主机工作区到 `/sim2sim`）：
-
-```bash
-source src/elevation_mapping/em_gpu_humble.sh   # 提供 em_create / em_start / em_enter 等函数
-em_enter
-```
-
-常用函数：`em_create` 创建容器、`em_start` 启动、`em_enter` 进入、`em_stop` 停止、`em_remove` 删除后重建。
-
-### 3. 容器内安装依赖
-
-进入容器后执行（换源、安装 ROS 2 依赖与 Gazebo 模型）：
-
-```bash
-# Ubuntu基础源换清华
-sudo sed -i 's/archive.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
-sudo sed -i 's/security.ubuntu.com/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list
-
-# ROS 2 Humble 源（TUNA 镜像）
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] https://mirrors.tuna.tsinghua.edu.cn/ros2/ubuntu jammy main" | \
-  sudo tee /etc/apt/sources.list.d/ros2.list
-
-# 刷新源
-sudo apt update
-
-sudo apt install -y \
-  ros-humble-xacro \
-  ros-humble-control-toolbox \
-  ros-humble-hardware-interface \
-  ros-humble-ros2-control \
-  ros-humble-ros2-controllers \
-  ros-humble-joy \
-  ros-humble-demo-nodes-cpp \
-  ros-humble-gazebo-ros2-control \
-  ros-humble-joint-state-publisher-gui \
-  ros-humble-rviz2
-
-pip install rich
-
-mkdir -p ~/.gazebo/models
-git -c http.version=HTTP/1.1 clone --depth 1 --filter=blob:none --sparse \
-  https://gh-proxy.org/https://github.com/osrf/gazebo_models.git /tmp/gazebo_models
-git -C /tmp/gazebo_models sparse-checkout set sun ground_plane
-cp -a /tmp/gazebo_models/sun /tmp/gazebo_models/ground_plane ~/.gazebo/models/
-```
-
-### 4. 构建工作区
+容器和工作区已准备好后，打开三个终端。每个终端均执行：
 
 ```bash
 cd /sim2sim/sim2gazebo
 source /opt/ros/humble/setup.bash
-colcon build --symlink-install
 source install/setup.bash
 ```
 
-仅修改 Python 策略运行时时可缩小构建范围：`colcon build --packages-select rl_policy_runtime --symlink-install`。
-
-## 启动仿真
-
-三个终端，均需先加载 ROS 与工作区环境：
-
-1. **Gazebo**：ros2 launch rl_sar gazebo.launch.py rname:=go2 wname:=terrain_track
-2. **高程图**：ros2 launch elevation_mapping_cupy elevation_mapping.launch.py use_sim_time:=true
-3. **策略控制器**：ros2 run rl_policy_runtime deploy_node --ros-args -p policy:=quad_mwm -p keyboard_enabled:=true
-
-可选策略：`quad_mwm`（高程图 17×25×3）、`isaaclab_ame`（21×33×3）。控制器会自动启动 `robot_joint_controller` 与高程图适配器；**不要同时运行多个 `deploy_node`**。
-
-## 操作
-
-键盘状态机（Rich 面板显示 FSM 状态、起立/趴下进度、速度指令与传感器新鲜度）：
-
-| 按键 | 行为 |
-| --- | --- |
-| `0` / `1` / `9` | 起立 / 起立完成后进入 locomotion / 趴下 |
-| `P` | 停止策略，切换被动站立 |
-| `W`/`S`、`A`/`D`、`Q`/`E` | 调节 vx / vy / yaw |
-| `Space` | 速度命令清零 |
-| `N` | 切换键盘命令与 `/cmd_vel` |
-| `R` / `Enter` | 重置世界 / 暂停·恢复物理 |
-
-典型顺序：等状态话题就绪 → `0` → 等进度条完成 → `1`。面板显示 `elevation_map: waiting/stale` 时策略保持站立、不进入推理。
-
-非交互启动（自动化）：
+源码修改后，先重新构建相关包：
 
 ```bash
-ros2 launch rl_policy_runtime controller.launch.py policy:=quad_mwm keyboard_enabled:=false
-ros2 service call /rl_policy_runtime/enable std_srvs/srv/SetBool "{data: true}"
-ros2 service call /rl_policy_runtime/reset std_srvs/srv/Trigger "{}"
+cd /sim2sim/sim2gazebo
+source /opt/ros/humble/setup.bash
+colcon build --packages-select rl_sar elevation_mapping_cupy rl_policy_runtime --symlink-install
+source install/setup.bash
 ```
 
-## 新增策略
+终端 1，启动无 odom Gazebo：
 
-见 [新增策略模型指南](src/rl_policy_runtime/ADDING_POLICY.md)：策略目录与 `manifest.yaml` 模板、`policy.py` 观测构造与推理模板、关节顺序与 PD 约束、接入与验收清单。
+```bash
+ros2 launch rl_sar gazebo.launch.py \
+  wname:=terrain_track \
+  enable_truth_tf:=false
+```
 
-## 常见问题
+终端 2，启动基于 `base` 坐标系的高程图：
 
-- **`rosidl_adapter` 找不到**：ROS Python 环境未加载，重新 `source /opt/ros/humble/setup.bash` 后再构建。
-- **`Ignoring elevation_map: got ... expected ...`**：数据长度 = `(size_x/resolution + 1) × (size_y/resolution + 1) × 3`，须与 manifest `shape` 对应；同一时刻只保留一个 `deploy_node`。
-- **键盘无效或面板不显示**：用 `ros2 run` 而非 `ros2 launch` 操作键盘，确认 `keyboard_enabled:=true`，并安装 `python3-rich`。
+```bash
+ros2 launch elevation_mapping_cupy elevation_mapping.launch.py \
+  use_sim_time:=true \
+  no_odom:=true
+```
+
+终端 3，启动 `quad_mwm` 控制器：
+
+```bash
+ros2 launch rl_policy_runtime controller.launch.py \
+  policy:=quad_mwm \
+  keyboard_enabled:=true \
+  control_enabled:=false
+```
+
+控制器启动后先按 `0` 执行起身流程；起身完成后按 `1` 进入策略控制。不要在机器人仰躺时直接通过 `~/enable` 服务进入 `LOCOMOTION`。
+
+## 当前问题与结论
+
+### 启动后保持四脚朝天
+
+Gazebo 中机器人生成后可能会先仰躺。控制器启动时，`PASSIVE` 状态必须持续发送固定站立关节角，并且默认重置 Gazebo 世界；两者共同保证机器人会尝试自动起身。
+
+若启动控制器后仍保持仰躺，先确认运行的不是旧构建：
+
+```bash
+ros2 param get /rl_policy_runtime reset_world_on_start
+ros2 topic hz /imu
+ros2 topic hz /robot_joint_controller/state
+ros2 topic hz /robot_joint_controller/command
+ros2 control list_controllers
+```
+
+预期：
+
+- `reset_world_on_start` 为 `true`；
+- `/imu` 约为 `100 Hz`；
+- `/robot_joint_controller/state` 有持续数据；
+- `/robot_joint_controller/command` 约为 `50 Hz`；
+- `joint_state_broadcaster` 与 `robot_joint_controller` 均为 `active`。
+
+如果命令频率为 `50 Hz` 但机器人仍不响应，应检查控制器日志、关节命名和 Gazebo 中的关节控制插件；如果命令话题没有数据，优先检查 `/imu` 和 `/robot_joint_controller/state`。
+
+### 高程图报找不到 `odom`
+
+出现以下日志说明高程图仍运行在有 odom 配置，而不是无 odom 配置：
+
+```text
+Frame 'odom' or 'utlidar_lidar' does not exist
+```
+
+必须使用 `no_odom:=true` 启动高程图。随后检查地图是否正常发布：
+
+```bash
+ros2 topic echo --once /elevation_mapping_node/elevation_map_filter --field header.frame_id
+ros2 topic hz /elevation_mapping_node/elevation_map_filter
+```
+
+预期输出坐标系为 `base`，发布频率约为 `10 Hz`。没有高程图时，`quad_mwm` 会因必需传感器未就绪而保持站立，不执行网络推理。
+
+### 仰躺时进入策略控制仍可能失败
+
+这是当前无 odom 方案的核心限制。高程图使用会随机体旋转的 `base` 坐标系；当机器人四脚朝天时，机体 `z` 轴指向世界下方，地面在地图中的高度会由训练时的负值变成正值。`quad_mwm` 的高度输入裁剪范围为 `[-1.2, 0]`，正高度会被裁剪为 `0`，同时地形的平面方向也与训练时不一致。
+
+因此，起身阶段应由固定关节姿态控制完成，机器人站稳后再按 `1` 进入策略。若需要策略直接从任意翻转姿态恢复，需将地形图改为重力对齐的局部坐标系，而不是直接使用随机身完整旋转的 `base` 坐标系。
+
+## 运行检查清单
+
+```bash
+ros2 topic echo --once /elevation_mapping_node/elevation_map_filter --field header.frame_id
+ros2 topic hz /elevation_mapping_node/elevation_map_filter
+ros2 topic hz /imu
+ros2 topic hz /robot_joint_controller/state
+ros2 topic hz /robot_joint_controller/command
+ros2 control list_controllers
+```
+
+满足以下条件后再进入策略控制：高程图坐标系为 `base`、高程图频率约 `10 Hz`、控制命令频率约 `50 Hz`、两个 controller 均为 `active`，且机器人已通过起身流程恢复站立。
