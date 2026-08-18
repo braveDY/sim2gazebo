@@ -1,0 +1,21 @@
+/elevation_mapping_node:
+  ros__parameters:
+    map_frame: 'base'
+    base_frame: 'base'
+    corrected_map_frame: 'base'
+    initialize_frame_id: ['base']
+
+    subscribers:
+      l1_lidar:
+        topic_name: '/utlidar/cloud_filtered'
+        data_type: pointcloud
+
+    publishers:
+      elevation_map_raw:
+        layers: ['elevation', 'traversability', 'variance']
+        basic_layers: ['elevation']
+        fps: 10.0
+      elevation_map_filter:
+        layers: ['min_filter', 'smooth', 'inpaint', 'elevation']
+        basic_layers: ['min_filter']
+        fps: 10.0

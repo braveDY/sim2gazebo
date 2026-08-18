@@ -98,9 +98,18 @@ def sample_grid_map(
     )
     resolution = float(grid_map_msg.info.resolution)
 
-    c, s = float(np.cos(yaw)), float(np.sin(yaw))
-    wx = base_position[0] + points_xy[:, 0] * c - points_xy[:, 1] * s
-    wy = base_position[1] + points_xy[:, 0] * s + points_xy[:, 1] * c
+    frame_id = getattr(getattr(grid_map_msg, "header", None), "frame_id", "")
+    is_base_frame = str(frame_id).strip().lower() in ["base", "base_link", "body", "trunk"]
+
+    if is_base_frame:
+        wx = points_xy[:, 0]
+        wy = points_xy[:, 1]
+        base_z = 0.0
+    else:
+        c, s = float(np.cos(yaw)), float(np.sin(yaw))
+        wx = base_position[0] + points_xy[:, 0] * c - points_xy[:, 1] * s
+        wy = base_position[1] + points_xy[:, 0] * s + points_xy[:, 1] * c
+        base_z = float(base_position[2])
 
     rows, cols = elevation.shape
     ri = np.rint(rows / 2 - 0.5 - (wx - center[0]) / resolution).astype(int)
@@ -108,7 +117,7 @@ def sample_grid_map(
 
     valid = (ri >= 0) & (ri < rows) & (ci >= 0) & (ci < cols)
     values = np.full(len(points_xy), clip[0], dtype=np.float32)
-    sampled = elevation[ri[valid], ci[valid]] - base_position[2]
+    sampled = elevation[ri[valid], ci[valid]] - base_z
     values[valid] = np.clip(np.nan_to_num(sampled, nan=clip[0]), *clip)
     return values
 

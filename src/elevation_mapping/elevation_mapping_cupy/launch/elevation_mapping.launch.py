@@ -3,7 +3,7 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch.conditions import IfCondition
 
 
@@ -16,9 +16,19 @@ def generate_launch_description():
         share_dir, 'config', 'core', 'core_param.yaml')
 
     # Declare launch arguments
+    no_odom_arg = DeclareLaunchArgument(
+        'no_odom',
+        default_value='false',
+        description='Whether to run in no-odom mode using base frame'
+    )
+
     robot_param_arg = DeclareLaunchArgument(
         'robot_config',
-        default_value='go2/go2_gazebo_l1.yaml',
+        default_value=PythonExpression([
+            "'go2/go2_gazebo_l1_no_odom.yaml' if '",
+            LaunchConfiguration('no_odom'),
+            "'.lower() in ['true', '1'] else 'go2/go2_gazebo_l1.yaml'"
+        ]),
         description='Name of the robot-specific config file within '
                     'config/setups/'
     )
@@ -78,6 +88,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        no_odom_arg,
         robot_param_arg,
         launch_rviz_arg,
         rviz_config_arg,

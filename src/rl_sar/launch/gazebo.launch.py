@@ -4,6 +4,7 @@
 import os
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, TextSubstitution, Command, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
@@ -15,8 +16,15 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     rname = LaunchConfiguration("rname")
     wname = LaunchConfiguration("wname")
+    enable_truth_tf = LaunchConfiguration("enable_truth_tf")
 
-    rviz_config = os.path.join(get_package_share_directory("rl_sar"), "rviz", "go2.rviz")
+    rviz_config = PathJoinSubstitution([
+        FindPackageShare("rl_sar"),
+        "rviz",
+        PythonExpression([
+            "'go2.rviz' if '", enable_truth_tf, "'.lower() in ['true', '1'] else 'go2_no_odom.rviz'"
+        ]),
+    ])
     robot_name = ParameterValue(Command(["echo -n ", rname]), value_type=str)
     gazebo_model_name = ParameterValue(Command(["echo -n ", rname, "_gazebo"]), value_type=str)
 
@@ -129,6 +137,7 @@ def generate_launch_description():
             "base_frame": "base",
             "use_sim_time": True,
         }],
+        condition=IfCondition(enable_truth_tf),
     )
 
     param_node = Node(
@@ -151,6 +160,11 @@ def generate_launch_description():
             "wname",
             description="Gazebo world name (stairs, terrain_track)",
             default_value=TextSubstitution(text="stairs"),
+        ),
+        DeclareLaunchArgument(
+            "enable_truth_tf",
+            description="Enable Gazebo ground truth TF broadcast and /odom publisher",
+            default_value=TextSubstitution(text="true"),
         ),
         robot_state_publisher_node,
         gazebo,
