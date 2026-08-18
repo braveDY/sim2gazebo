@@ -15,7 +15,7 @@ fsm:
 
 sensors:
   elevation_map:
-    topic: /filtered_map
+    topic: /elevation_mapping_node/elevation_map_filter
     type: grid_map
     timeout_sec: 0.25
     required: true
@@ -49,4 +49,4 @@ policy_config:
   elevation_offset: [0.0, 0.0]
   elevation_resolution: 0.05
   elevation_clip: [-1.2, 0.0]
-  elevation_layer: elevation
+  elevation_layer: inpaint

@@ -10,7 +10,6 @@ from launch.conditions import IfCondition
 def generate_launch_description():
     package_name = 'elevation_mapping_cupy'
     share_dir = get_package_share_directory(package_name)
-    plane_share_dir = get_package_share_directory('convex_plane_decomposition_ros')
 
     # Define paths
     core_param_path = os.path.join(
@@ -42,13 +41,6 @@ def generate_launch_description():
         description='Use simulation clock if true'
     )
 
-    use_plane_fitting_arg = DeclareLaunchArgument(
-        'use_plane_fitting',
-        default_value='true',
-        description='Run convex plane decomposition before AME elevation-map sampling'
-    )
-
-
     # Get launch configurations
     robot_config = LaunchConfiguration('robot_config')
     robot_param_path = PathJoinSubstitution(
@@ -56,9 +48,6 @@ def generate_launch_description():
     launch_rviz = LaunchConfiguration('launch_rviz')
     rviz_config = LaunchConfiguration('rviz_config')
     use_sim_time = LaunchConfiguration('use_sim_time')
-    use_plane_fitting = LaunchConfiguration('use_plane_fitting')
-    plane_parameter_path = os.path.join(plane_share_dir, 'config', 'parameters.yaml')
-    plane_node_parameter_path = os.path.join(plane_share_dir, 'config', 'node.yaml')
 
     # Verify core config exists
     if not os.path.exists(core_param_path):
@@ -78,19 +67,6 @@ def generate_launch_description():
         ]
     )
 
-    convex_plane_decomposition_node = Node(
-        package='convex_plane_decomposition_ros',
-        executable='convex_plane_decomposition_ros_node',
-        name='convex_plane_decomposition_ros_node',
-        output='screen',
-        parameters=[
-            plane_parameter_path,
-            plane_node_parameter_path,
-            {'use_sim_time': use_sim_time},
-        ],
-        condition=IfCondition(use_plane_fitting)
-    )
-
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -106,8 +82,6 @@ def generate_launch_description():
         launch_rviz_arg,
         rviz_config_arg,
         use_sim_time_arg,
-        use_plane_fitting_arg,
         elevation_mapping_node,
-        convex_plane_decomposition_node,
         rviz_node
     ])
