@@ -4,7 +4,7 @@ convex_plane_decomposition_ros_node:
     height_layer: 'elevation'
     target_frame_id: 'odom'
     submap:
-      width: 3.0
+      width: 1.5
       length: 3.0
     publish_to_controller: true
-    frequency: 20.0
+    frequency: 10.0
